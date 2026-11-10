@@ -92,17 +92,18 @@ const Dealer = () => {
 
   if (!dealer) {
     return (
-      <div style={{ margin: "20px" }}>
+      <div>
         <Header />
-        <h3>Loading dealer...</h3>
+        <h3 style={{ margin: "20px" }}>Loading dealer...</h3>
       </div>
     );
   }
 
   return (
-    <div style={{ margin: "20px" }}>
+    <div>
       <Header />
 
+      <div style={{ margin: "20px" }}>
       <div style={{ marginTop: "10px" }}>
         <h1 style={{ color: "grey" }}>
           {dealer.full_name}
@@ -142,6 +143,7 @@ const Dealer = () => {
             </div>
           ))
         )}
+      </div>
       </div>
     </div>
   );

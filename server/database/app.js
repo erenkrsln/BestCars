@@ -8,10 +8,15 @@ const port = 3030;
 app.use(cors());
 app.use(require('body-parser').urlencoded({ extended: false }));
 
-const reviews_data = JSON.parse(fs.readFileSync("reviews.json", 'utf8'));
-const dealerships_data = JSON.parse(fs.readFileSync("dealerships.json", 'utf8'));
+const path = require('path');
 
-mongoose.connect("mongodb://mongo_db:27017/", { 'dbName': 'dealershipsDB' });
+const dataDir = path.join(__dirname, 'data');
+const reviews_data = JSON.parse(fs.readFileSync(path.join(dataDir, 'reviews.json'), 'utf8'));
+const dealerships_data = JSON.parse(fs.readFileSync(path.join(dataDir, 'dealerships.json'), 'utf8'));
+
+// Docker sets MONGO_URL (see docker-compose.yml); locally MongoDB runs on localhost
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/";
+mongoose.connect(mongoUrl, { 'dbName': 'dealershipsDB' });
 
 const Reviews = require('./review');
 const Dealerships = require('./dealership');

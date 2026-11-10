@@ -153,11 +153,15 @@ def get_dealer_reviews(request, dealer_id):
         endpoint = "/fetchReviews/dealer/" + str(dealer_id)
         reviews = get_request(endpoint)
 
-        for review_detail in reviews:
+        for review_detail in reviews or []:
             response = analyze_review_sentiments(review_detail['review'])
             print(response)
 
-            review_detail['sentiment'] = response['sentiment']
+            # If the sentiment service is down, still show the review
+            if response and 'sentiment' in response:
+                review_detail['sentiment'] = response['sentiment']
+            else:
+                review_detail['sentiment'] = "neutral"
 
         return JsonResponse({
             "status": 200,
